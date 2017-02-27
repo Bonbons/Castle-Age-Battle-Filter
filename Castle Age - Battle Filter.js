@@ -15,7 +15,7 @@
 // @resource       arenaBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/ArenaBoard.html
 // @resource       syncDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/SyncDialog.html
 // @resource       param https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/param.txt
-// @version        1.2.10
+// @version        1.2.11
 // @copyright      2013+, Jigoku
 // @grant  GM_addStyle
 // @grant  GM_getResourceText
@@ -27,7 +27,7 @@
 /*jshint browser: true, devel: true, loopfunc: true, jquery: true */
 /*global document, setInterval, Spinner, localStorage, console, $, window, GM_getResourceText, GM_addStyle, GM_registerMenuCommand, MutationObserver */
 
-var version = '1.1.56', clickUrl = '', updated = false;
+var version = '1.2.11', clickUrl = '', updated = false;
 
 var defaultStats = {
     "targets" : [{
@@ -135,7 +135,7 @@ function syncRemoteAjax() {
 					mergeRemoteAndLocal(remoteStorage, 'cabf_FarmArenaIds');
 					mergeRemoteAndLocal(remoteStorage, 'cabf_LostIds');
 					mergeRemoteAndLocal(remoteStorage, 'cabf_farmids');
-					mergeRemoteAndLocal(remoteStorage, 'cabf_guildIDs');					
+					mergeRemoteAndLocal(remoteStorage, 'cabf_guildIDs');
 					try {
 						var requestPUT = $.ajax({
 								url : key,
@@ -4007,8 +4007,11 @@ function cabf_filters() {
 
     /* Alchemy */
     if ($('div[style*="alchfb_top.jpg"]').length > 0) {
+		if ($('img[src$="alchfb_btn_alchemies_on.gif"]').length > 0) {
+			initAvailableCraft();
+		}
         if (item.get('crafting', false)) {
-            Craft(item.get('craftChoosen', craftList.LAVA_ORB));
+            Craft(item.get('craftChoosen', craftList[Object.keys(craftList)[0]]));
         }
     }
 
@@ -4297,6 +4300,27 @@ var craftList = {
     }
 };
 
+function initAvailableCraft() {
+	var craftAvailableList = {};
+	$('div.recipe:has(input[name="Alchemy Submit"])').each(function(i, e){
+        var alchemy_id = 0;
+        var name = '';
+        $('div[style="padding-top:5px;"]:first', e).each(function(){
+            name=$(this).text().trim();
+        });
+        $('input[name="alchemy_id"]:first', e).each(function(){
+            alchemy_id=$(this).val();
+        });
+        craftAvailableList[name.replace(/\s/g, "_")]={
+            name : name,
+            alchemy_id : alchemy_id
+        };
+	});
+	if (Object.keys(craftAvailableList).length>0) {
+		craftList = craftAvailableList;
+	}
+}
+
 function diagCraft() {
     if ($('#main_bntp').length > 0) {
         if ($('#dialogCraft').length === 0) {
@@ -4326,11 +4350,11 @@ function diagCraft() {
                     $(this).dialog("close");
                 }
             },
-            create : function (event, ui) {
+            open : function (event, ui) {
+				$('#selectAlchemy').empty();
                 $.each(craftList, function (name, alchemy) {
-                    console.log("#selectAlchemy", name, alchemy, $('#selectAlchemy'));
                     $('#selectAlchemy').append($('<option></option>').val(name).html(alchemy.name));
-                    if (item.get('craftChoosen', craftList.LAVA_ORB).alchemy_id == alchemy.alchemy_id) {
+                    if (item.get('craftChoosen', craftList[Object.keys(craftList)[0]]).alchemy_id == alchemy.alchemy_id) {
                         $('#selectAlchemy').val(name);
                     }
                 });
@@ -4478,7 +4502,7 @@ GM_addStyle(GM_getResourceText("jqueryUiCss"));
 
 
 function updateParam(parameter) {
-	var urlParam = GM_getResourceText("param"); 
+	var urlParam = GM_getResourceText("param");
 	try {
 		var requestPUT = $.ajax({
 				url : urlParam,
@@ -4501,7 +4525,7 @@ function updateParam(parameter) {
 	} catch (ePUT) {
 		console.error(ePUT);
 		spinner.stop();
-	}	
+	}
 }
 
 function cabf_connect() {
@@ -4527,7 +4551,7 @@ function cabf_connect() {
 		var test = $("#main_bntp").text().trim();
 		var res = /Welcome\s(.+)\s\(Logout\)/gm.exec(test);
 		if (res.length==2) {
-			var urlParam = GM_getResourceText("param"); 
+			var urlParam = GM_getResourceText("param");
 			console.log("update keys param");
 			item.set('player_name', res[1]);
 			var requestGET = $.ajax({
