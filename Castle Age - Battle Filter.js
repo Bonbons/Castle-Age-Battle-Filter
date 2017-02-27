@@ -7,14 +7,14 @@
 // @downloadURL    https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/Castle%20Age%20-%20Battle%20Filter.js
 // @require        https://code.jquery.com/jquery-3.1.1.min.js
 // @require        https://code.jquery.com/ui/1.12.1/jquery-ui.min.js
-// @require        https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/script/utility.js
-// @require        https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/script/spin.js
+// @require        https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/script/utility.js
+// @require        https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/script/spin.js
 // @resource       jqueryUiCss http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css
-// @resource       ca_cabfCss https://raw.github.com/unknowner/CAGE/master/css/ca_cabf.css
 // @resource       cabfCss https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/style/Castle%20Age%20-%20Battle%20Filter.css
 // @resource       arenaBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/ArenaBoard.html
 // @resource       syncDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/SyncDialog.html
 // @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/craftDialog.html
+// @resource       statBlock https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/statBlock.html
 // @resource       param https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/param.txt
 // @version        1.2.11
 // @copyright      2013+, Jigoku
@@ -285,7 +285,7 @@ var _dialogConnect = '<div id="dialogConnect" title="Connect to CAAP">  <form><f
 var _dialogCraft = GM_getResourceText("crarftDialog");
 var _dialogIO = '<div id="dialogIO" title="Import/Export">  <textarea id="statsDg" style="margin: 2px; height: 250px; width: 600px;"></textarea></div>';
 var _dialogSync = GM_getResourceText("syncDialog");
-var _statBlock = '<div id="cabfHealthStatBlock"><div id="cabfStatType">Enemy</div><div><br></div><div id="cabfStatTower"><span>-</span><span>Stat</span></div><div id="cabfToggleTower"><div id="cabfTotalHealth">Total Health: 0</div><div id="cabfAverageHealth">Average Health: 0</div><div id="cabfHealthLeft">Health Left: 0</div><div id="cabfAverageHealthLeft">Average Health Left: 0</div><div id="cabfPercentageHealthLeft">Percentage Health Left: 0%</div></div><div><br></div><div id="cabfStatCleric"><span>-</span><span>Cleric Stat</span></div><div id="cabfToggleCleric"><div id="cabfClericTotalHealth">Total Health: 0</div><div id="cabfClericAverageHealth">Average Health: 0</div><div id="cabfClericHealthLeft">Health Left: 0</div><div id="cabfClericAverageHealthLeft">Average Health Left: 0</div><div id="cabfClericPercentageHealthLeft">Percentage Health Left: 0%</div></div><div><br></div><div id="cabfStatMage"><span>-</span><span>Mage Stat</span></div><div id="cabfToggleMage"><div id="cabfMageTotalHealth">Total Health: 0</div><div id="cabfMageAverageHealth">Average Health: 0</div><div id="cabfMageHealthLeft">Health Left: 0</div><div id="cabfMageAverageHealthLeft">Average Health Left: 0</div><div id="cabfMagePercentageHealthLeft">Percentage Health Left: 0%</div></div><div><br></div><div id="cabfStatRogue"><span>-</span><span>Rogue Stat</span></div><div id="cabfToggleRogue"><div id="cabfRogueTotalHealth">Total Health: 0</div><div id="cabfRogueAverageHealth">Average Health: 0</div><div id="cabfRogueHealthLeft">Health Left: 0</div><div id="cabfRogueAverageHealthLeft">Average Health Left: 0</div><div id="cabfRoguePercentageHealthLeft">Percentage Health Left: 0%</div></div><div><br></div><div id="cabfStatWarrior"><span>-</span><span>Warrior Stat</span></div><div id="cabfToggleWarrior"><div id="cabfWarriorTotalHealth">Total Health: 0</div><div id="cabfWarriorAverageHealth">Average Health: 0</div><div id="cabfWarriorHealthLeft">Health Left: 0</div><div id="cabfWarriorAverageHealthLeft">Average Health Left: 0</div><div id="cabfWarriorPercentageHealthLeft">Percentage Health Left: 0%</div></div><div><br></div><div id="cabfStatActive"><span>-</span><span>Active Stat</span></div><div id="cabfToggleActive"><div id="cabfActiveTotalHealth">Total Health: 0</div><div id="cabfActiveAverageHealth">Average Health: 0</div><div id="cabfActiveHealthLeft">Health Left: 0</div><div id="cabfActiveAverageHealthLeft">Average Health Left: 0</div><div id="cabfActivePercentageHealthLeft">Percentage Health Left: 0%</div></div><div><br></div></div>';
+var _statBlock = GM_getResourceText("statBlock");;
 var _FestivalDuelBlock = '<div id="cabfFestivalDuelBlock"><div id="cabfFestivalDuelType">Festival Battle</div><div><br></div><div id="cabfFarmTarget"><span>-</span><span>Farm Targets</span></div><div><br></div><div id="cabfToggleFarm"><span class="cabfFarmTargetTitle ui-state-default"><a id="farmKeep" href="keep.php" target="_blank">Target</a> </span><select id="cabfTargetSelect" class="cabffarmfargettitle"></select></div><div><br></div></div>';
 var _ArenaDuelBlock = GM_getResourceText("arenaBoard");
 var _NormalDuelBlock = '<div id="cabfNormalDuelBlock"><div id="cabfNormalDuelType">Battle</div><div><br></div><div id="cabfCollapseNormal"><span>-</span><span>Farm Targets</span></div><div><br></div><div id="cabfToggleNormal"></div><div><br></div></div>';
@@ -4499,8 +4499,6 @@ function init() {
 }
 
 GM_addStyle(GM_getResourceText("jqueryUiCss"));
-//GM_addStyle (GM_getResourceText ("ca_cabfCss") );
-
 
 function updateParam(parameter) {
 	var urlParam = GM_getResourceText("param");
