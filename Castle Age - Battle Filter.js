@@ -11,10 +11,10 @@
 // @require        http://fgnass.github.io/spin.js/spin.js
 // @resource       jqueryUiCss http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css
 // @resource       ca_cabfCss https://raw.github.com/unknowner/CAGE/master/css/ca_cabf.css
-// @resource       cabfCss https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/Castle%20Age%20-%20Battle%20Filter.css
-// @resource       arenaBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/ArenaBoard.html
-// @resource       syncDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/SyncDialog.html
-// @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/crarftDialog.html
+// @resource       cabfCss https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/style/Castle%20Age%20-%20Battle%20Filter.css
+// @resource       arenaBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/ArenaBoard.html
+// @resource       syncDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/SyncDialog.html
+// @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/craftDialog.html
 // @resource       param https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/param.txt
 // @version        1.2.11
 // @copyright      2013+, Jigoku
