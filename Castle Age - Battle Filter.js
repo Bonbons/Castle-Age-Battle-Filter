@@ -5,11 +5,11 @@
 // @include        https://apps.facebook.com/castle_age/*
 // @include        https://web4.castleagegame.com/castle_ws/*
 // @downloadURL    https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/Castle%20Age%20-%20Battle%20Filter.js
-// @require        http://code.jquery.com/jquery-1.9.1.js
-// @require        http://code.jquery.com/ui/1.10.3/jquery-ui.js
-// @require     https://raw.githubusercontent.com/magowiz/Castle-Age-Autoplayer/master/Chrome/unpacked/extern/utility.js
-// @require        http://fgnass.github.io/spin.js/spin.js
-// @resource       jqueryUiCss http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css
+// @require        https://code.jquery.com/jquery-3.1.1.min.js
+// @require        https://code.jquery.com/ui/1.12.1/jquery-ui.min.js
+// @require        https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/script/utility.js
+// @require        https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/script/spin.js
+// @resource       jqueryUiCss http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css
 // @resource       ca_cabfCss https://raw.github.com/unknowner/CAGE/master/css/ca_cabf.css
 // @resource       cabfCss https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/style/Castle%20Age%20-%20Battle%20Filter.css
 // @resource       arenaBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/ArenaBoard.html
