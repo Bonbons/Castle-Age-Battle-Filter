@@ -16,7 +16,7 @@
 // @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/craftDialog.html
 // @resource       statBlock https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/statBlock.html
 // @resource       param https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/param.txt
-// @version        1.2.11
+// @version        1.2.12
 // @copyright      2013+, Jigoku
 // @grant  GM_addStyle
 // @grant  GM_getResourceText
@@ -3686,7 +3686,6 @@ function myAjax(page, params, cbError, cbSuccess) {
 
             success : function (data, textStatus, XMLHttpRequest) {
                 data = "<div>" + data + "</div>";
-                //console.log(2, "ajax", [data, textStatus, XMLHttpRequest]);
                 cbSuccess(data, textStatus, XMLHttpRequest);
             }
         });
@@ -4610,10 +4609,12 @@ function cabf_connect() {
 
 console.log(GM_listValues());
 
-/*Sync*/
-syncData();
 /* Connection */
 cabf_connect();
+
+/*Sync*/
+syncData();
+
 console.log('init()');
 init();
 addEssenceBoard('#main_bntp');
