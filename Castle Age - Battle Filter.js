@@ -3944,6 +3944,7 @@ function cabf_filters() {
     });
 
     /* Daily spin */
+	/* img[src*="news_btn_join.gif"] */
     if ($('a[href*="index.php?spin=1"]').length > 0) {
         $('a[href*="index.php?spin=1"]').click();
     }
