@@ -16,7 +16,7 @@
 // @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/craftDialog.html
 // @resource       statBlock https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/statBlock.html
 // @resource       param https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/param.txt
-// @version        1.2.12
+// @version        1.2.13
 // @copyright      2013+, Jigoku
 // @grant  GM_addStyle
 // @grant  GM_getResourceText
@@ -28,7 +28,7 @@
 /*jshint browser: true, devel: true, loopfunc: true, jquery: true */
 /*global document, setInterval, Spinner, localStorage, console, $, window, GM_getResourceText, GM_addStyle, GM_registerMenuCommand, MutationObserver */
 
-var version = '1.2.11', clickUrl = '', updated = false;
+var version = '1.2.13', clickUrl = '', updated = false;
 
 var defaultStats = {
     "targets" : [{
@@ -3942,6 +3942,11 @@ function cabf_filters() {
         value = $('option:last-child', _e).text();
         $(_e).val(value);
     });
+
+    /* Daily spin */
+    if ($('a[href*="index.php?spin=1"]').length > 0) {
+        $('a[href*="index.php?spin=1"]').click();
+    }
 
     /* Guild battle or 10vs10 battle*/
     if ($('#enemy_guild_tab,#your_guild_tab').length > 0) {
