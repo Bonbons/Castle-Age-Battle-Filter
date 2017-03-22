@@ -3944,7 +3944,16 @@ function cabf_filters() {
     });
 
     /* Daily spin */
-	/* img[src*="news_btn_join.gif"] */
+	/* 
+	Bouton:
+		img[src*="news_btn_join.gif"] 
+	Resultat:
+		text:
+			div[style*="tc_spin_nameplate.gif"]	
+		Cadre:
+			div[style*="dailyspin.png"]	
+			
+	*/
     if ($('a[href*="index.php?spin=1"]').length > 0) {
         $('a[href*="index.php?spin=1"]').click();
     }
