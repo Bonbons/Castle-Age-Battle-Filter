@@ -3831,6 +3831,7 @@ function findEssence(type){
                 MaxGuild = essencesArray[i].guildId;
             }
         }
+		item.set('tradeGuild',MaxGuild);
         ajaxLinkSend('globalContainer', 'guild_conquest_market.php?guild_id=' + MaxGuild);
         essencesArray = null;
         MaxVal = null;
@@ -3844,6 +3845,7 @@ function tradeEssence(type){
 	try {
 		var guild_id = $("[id^='guild_name_header']").children().eq(0).attr('href').split('=')[1];
 		var type_id = 1;
+		item.set('tradeGuild',guild_id);
 		switch (type) {
 			case 'health': type_id = 4; break;
 			case 'damage': type_id = 3; break;
@@ -3852,7 +3854,7 @@ function tradeEssence(type){
 			default: type_id = item.get('tradeType',1); break;
 		}
 		item.set('tradeType',type_id);
-		ajaxLinkSend('globalContainer', 'guild_conquest_market.php?guild_id=' + guild_id+'&confirmTrade='+type_id+'&confirmedTradeAmount=800');
+		ajaxLinkSend('globalContainer', 'guild_conquest_market.php?guild_id=' + guild_id+'&confirmTrade='+type_id+'&confirmedTradeAmount='+item.get('tradeAmount',800););
     } catch (err) {
         console.error("ERROR in tradeEssence : " + err);
     }
@@ -3986,7 +3988,12 @@ function cabf_filters() {
     });
 	
 	
+	/* trade buttons */
+	$('select[name="confirmTrade"][form="cabfTrade"]').val(item.get('tradeType',1));
+	$('select[name="confirmedTradeAmount"][form="cabfTrade"]').val(item.get('tradeAmount',800));
 	if ($('div[style*="trade_guild_bot3.jpg"]').length > 0) {
+		var guild_id = $("[id^='guild_name_header']").children().eq(0).attr('href').split('=')[1];
+		$('#cabfTrade imput[name=guild_id]').val(guild_id);
 		addButtonTradeAgain();
 	}
 
