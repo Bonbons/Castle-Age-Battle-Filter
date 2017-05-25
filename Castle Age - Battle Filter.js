@@ -3854,15 +3854,35 @@ function tradeEssence(type){
 			default: type_id = item.get('tradeType',1); break;
 		}
 		item.set('tradeType',type_id);
-		ajaxLinkSend('globalContainer', 'guild_conquest_market.php?guild_id=' + guild_id+'&confirmTrade='+type_id+'&confirmedTradeAmount='+item.get('tradeAmount',800););
+		ajaxLinkSend('globalContainer', 'guild_conquest_market.php?guild_id=' + guild_id+'&confirmTrade='+type_id+'&confirmedTradeAmount='+item.get('tradeAmount',800));
     } catch (err) {
         console.error("ERROR in tradeEssence : " + err);
     }
 }
 
 
+function makeSelectGuild(){
+	try {
+        var essencesArray = item.get('essences', defaultEssences);
+		var guild_id = item.get('tradeGuild', '1796388608_1285087750');
+		var options = "";
+        for (var i = 0; i < essencesArray.length; i++) {
+			if (guild_id == essencesArray[i].guildId) {
+				options+='<option selected="yes" value="'+essencesArray[i].guildId+'">'+essencesArray[i].name+'</option>';
+			} else {
+				options+='<option value="'+essencesArray[i].guildId+'">'+essencesArray[i].name+'</option>';
+			}
+		}
+		$('select[name="guild_id"][form="cabfTrade"]').html(options);
+    } catch (err) {
+        console.error("ERROR in makeSelectGuild : " + err);
+    }
+}
+
+
 function addButtonTradeAgain(){
 	try {
+        var essencesArray = item.get('essences', defaultEssences);
 		var guild_id = $("[id^='guild_name_header']").children().eq(0).attr('href').split('=')[1];
 		var button = '<div style="padding:18px 0 0 33px"><form id="confirmTrade" onsubmit="ajaxFormSend(\'globalContainer\', \'guild_conquest_market.php\', this);return false;" method="post"><div class="imgButton"><input type="image" name="confirmTrade" alt="Confirm Trade" src="http://image4test.castleagegame.com/graphics/trade_btn_trade.gif"></div><input type="hidden" name="guild_id" value="'+guild_id+'"><input type="hidden" name="confirmTrade" value="'+item.get('tradeType',1)+'"><input type="hidden" name="confirmedTradeAmount" value="800"><input type="hidden" name="ajax" value="1"></form></div>';
 		$("div.result:contains(Trade Successful!)").append(button);
@@ -3986,16 +4006,6 @@ function cabf_filters() {
         value = $('option:last-child', _e).text();
         $(_e).val(value);
     });
-	
-	
-	/* trade buttons */
-	$('select[name="confirmTrade"][form="cabfTrade"]').val(item.get('tradeType',1));
-	$('select[name="confirmedTradeAmount"][form="cabfTrade"]').val(item.get('tradeAmount',800));
-	if ($('div[style*="trade_guild_bot3.jpg"]').length > 0) {
-		var guild_id = $("[id^='guild_name_header']").children().eq(0).attr('href').split('=')[1];
-		$('#cabfTrade imput[name=guild_id]').val(guild_id);
-		addButtonTradeAgain();
-	}
 
     /* Guild battle or 10vs10 battle*/
     if ($('#enemy_guild_tab,#your_guild_tab').length > 0) {
@@ -4082,12 +4092,20 @@ function cabf_filters() {
 
     /* Guild Essence */
     addEssenceBoard('#main_bntp');
+	$('select[name="confirmTrade"][form="cabfTrade"]').val(item.get('tradeType',1));
+	$('select[name="confirmedTradeAmount"][form="cabfTrade"]').val(item.get('tradeAmount',800));
+	makeSelectGuild();
     if ($('#storage_1').length > 0) {
         console.log('Guild Essence');
         var storageDivs = $("[id^='storage_']");
         var guild_id = $("[id^='guild_name_header']").children().eq(0).attr('href').split('=')[1];
         var guild_name = $("[id^='guild_name_header']").children().eq(0).text();
         setEssence(storageDivs, guild_id, guild_name);
+        /* trade buttons */
+        if ($('div[style*="trade_guild_bot3.jpg"]').length > 0) {
+            $('#cabfTrade imput[name=guild_id]').val(guild_id);
+            addButtonTradeAgain();
+        }
         essence = null;
         guild_id = null;
         guild_name = null;
