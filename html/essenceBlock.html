@@ -11,7 +11,7 @@
          <input type="hidden" name="guild_id" value="1796388608_1285087750">
          <input type="hidden" name="ajax" value="1">
       </form>
-      <select name="confirmTrade" form="cabfTrade">
+      <select name="confirmTrade" form="cabfTrade" onchange="localStorage['cabf_tradeType']=this[this.selectedIndex].value;return false;">
          <option selected="yes" value="1">attack</option>
          <option value="2">defense</option>
          <option value="3">damage</option>

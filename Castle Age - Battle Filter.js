@@ -460,6 +460,10 @@ function addEssenceBoard(id) {
     if ($('#cabfEssenceBlock').length <= 0) {
         $('#cabfRigthBoard').append(_essenceBlock);
 
+		$('select[name="confirmTrade"][form="cabfTrade"]').val(item.get('tradeType',1));
+
+		$('select[name="confirmedTradeAmount"][form="cabfTrade"]').val(item.get('tradeAmount',800));
+		
         $('#cabfDamageStorage').click(function () {
             runEffect('#cabfDamageStorage', '#cabfToggleDamageStorage');
         });
