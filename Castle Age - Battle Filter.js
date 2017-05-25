@@ -12,11 +12,12 @@
 // @resource       jqueryUiCss http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css
 // @resource       cabfCss https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/style/Castle%20Age%20-%20Battle%20Filter.css
 // @resource       arenaBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/ArenaBoard.html
+// @resource       essenceBlock https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/essenceBlock.html
 // @resource       syncDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/SyncDialog.html
 // @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/craftDialog.html
 // @resource       statBlock https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/statBlock.html
 // @resource       param https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/param.txt
-// @version        1.2.14
+// @version        1.2.15
 // @copyright      2013+, Jigoku
 // @grant  GM_addStyle
 // @grant  GM_getResourceText
@@ -285,12 +286,12 @@ var _dialogConnect = '<div id="dialogConnect" title="Connect to CAAP">  <form><f
 var _dialogCraft = GM_getResourceText("crarftDialog");
 var _dialogIO = '<div id="dialogIO" title="Import/Export">  <textarea id="statsDg" style="margin: 2px; height: 250px; width: 600px;"></textarea></div>';
 var _dialogSync = GM_getResourceText("syncDialog");
-var _statBlock = GM_getResourceText("statBlock");;
+var _statBlock = GM_getResourceText("statBlock");
 var _FestivalDuelBlock = '<div id="cabfFestivalDuelBlock"><div id="cabfFestivalDuelType">Festival Battle</div><div><br></div><div id="cabfFarmTarget"><span>-</span><span>Farm Targets</span></div><div><br></div><div id="cabfToggleFarm"><span class="cabfFarmTargetTitle ui-state-default"><a id="farmKeep" href="keep.php" target="_blank">Target</a> </span><select id="cabfTargetSelect" class="cabffarmfargettitle"></select></div><div><br></div></div>';
 var _ArenaDuelBlock = GM_getResourceText("arenaBoard");
 var _NormalDuelBlock = '<div id="cabfNormalDuelBlock"><div id="cabfNormalDuelType">Battle</div><div><br></div><div id="cabfCollapseNormal"><span>-</span><span>Farm Targets</span></div><div><br></div><div id="cabfToggleNormal"></div><div><br></div></div>';
 var _QuestDuelBlock = '<div id="cabfQuestBlock"><div id="cabfQuestDuelType">Quests</div><div><br></div><div id="cabfCollapseQuest"><span>-</span><span>Farm Quest</span></div><div><br></div><div id="cabfToggleQuest"></div><div><br></div></div>';
-var _essenceBlock = '<div id="cabfEssenceBlock"><div id="cabfEssenceTilte">Essences</div><div><br></div><div id="cabfDamageStorage"><span>-</span><span>Damage Storage</span></div><div id="cabfToggleDamageStorage"></div><div><br></div><div id="cabfAttackStorage"><span>-</span><span>Attack Storage</span></div><div id="cabfToggleAttackStorage"></div><div><br></div><div id="cabfDefenseStorage"><span>-</span><span>Defense Storage</span></div><div id="cabfToggleDefenseStorage"></div><div><br></div><div id="cabfHealthStorage"><span>-</span><span>Health Storage</span></div><div id="cabfToggleHealthStorage"></div><div><br></div></div>';
+var _essenceBlock = GM_getResourceText("essenceBlock");
 var _rightBoard = '<div id="cabfRigthBoard"></div>';
 var _leftBoard = '<div id="cabfLeftBoard"></div>';
 
@@ -3815,7 +3816,7 @@ function searchEssence() {
     }
 }
 
-function getEssence(type) {
+function findEssence(type){
     try {
         var essencesArray = item.get('essences', defaultEssences);
         var MaxVal = -1;
@@ -3831,8 +3832,45 @@ function getEssence(type) {
         MaxVal = null;
         MaxGuild = null;
     } catch (err) {
-        console.error("ERROR in getEssence : " + err);
+        console.error("ERROR in findEssence : " + err);
     }
+}
+
+function tradeEssence(type){
+	try {
+		var guild_id = $("[id^='guild_name_header']").children().eq(0).attr('href').split('=')[1];
+		var type_id = 1;
+		switch (type) {
+			case 'health': type_id = 4; break;
+			case 'damage': type_id = 3; break;
+			case 'defense': type_id = 2; break;
+			case 'attack': type_id = 1; break;
+			default: type_id = item.get('tradeType',1); break;
+		}
+		item.set('tradeType',type_id);
+		ajaxLinkSend('globalContainer', 'guild_conquest_market.php?guild_id=' + guild_id+'&confirmTrade='+type_id+'&confirmedTradeAmount=800');
+    } catch (err) {
+        console.error("ERROR in tradeEssence : " + err);
+    }
+}
+
+
+function addButtonTradeAgain(){
+	try {
+		var guild_id = $("[id^='guild_name_header']").children().eq(0).attr('href').split('=')[1];
+		var button = '<div style="padding:18px 0 0 33px"><form id="confirmTrade" onsubmit="ajaxFormSend(\'globalContainer\', \'guild_conquest_market.php\', this);return false;" method="post"><div class="imgButton"><input type="image" name="confirmTrade" alt="Confirm Trade" src="http://image4test.castleagegame.com/graphics/trade_btn_trade.gif"></div><input type="hidden" name="guild_id" value="'+guild_id+'"><input type="hidden" name="confirmTrade" value="'+item.get('tradeType',1)+'"><input type="hidden" name="confirmedTradeAmount" value="800"><input type="hidden" name="ajax" value="1"></form></div>';
+		$("div.result:contains(Trade Successful!)").append(button);
+    } catch (err) {
+        console.error("ERROR in addButtonTradeAgain : " + err);
+    }
+}
+
+function getEssence(type) {
+	if ($('div[style*="trade_guild_bot3.jpg"]').length > 0) {
+		tradeEssence(type);
+	} else {
+		findEssence(type);
+	}
 }
 
 function getEssenceIndex(array, guild_id) {
@@ -3937,11 +3975,16 @@ function cabf_filters() {
     $("#cabfHealthActionEarth").hide();
     $("#cabfConquestEarthFilterContainer").hide();
 
-    /* Selection par défaut de la dernière valeur d'options */
+    /* Select last option value by default */
     $("select[name='amount']").each(function (_i, _e) {
         value = $('option:last-child', _e).text();
         $(_e).val(value);
     });
+	
+	
+	if ($('div[style*="trade_guild_bot3.jpg"]').length > 0) {
+		addButtonTradeAgain();
+	}
 
     /* Guild battle or 10vs10 battle*/
     if ($('#enemy_guild_tab,#your_guild_tab').length > 0) {
