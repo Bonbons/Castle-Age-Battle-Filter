@@ -4,14 +4,25 @@
    <div id="cabfEssenceTilte">Essences</div>
    <div><br></div>
    <div>
-      <form id="cabfTrade">
-         <select onchange="item.set('tradeType', this[this.selectedIndex].value);return false;" name="selectTradeType" style="width:105px;height:25px;font-size:12px;font-weight:bold;">
-            <option selected="yes" value="1">attack</option>
-            <option value="2">defense</option>
-            <option value="3">damage</option>
-            <option value="4">health</option>
-         </select>
+      <form id="cabfTrade" onsubmit="ajaxFormSend('globalContainer', 'guild_conquest_market.php', this);return false;" method="post">
+         <div class="imgButton">
+            <input type="image" name="confirmTrade" alt="Confirm Trade" src="http://image4test.castleagegame.com/graphics/trade_btn_confirm.gif">
+         </div>
+         <input type="hidden" name="guild_id" value="1796388608_1285087750">
+         <input type="hidden" name="ajax" value="1">
       </form>
+      <select name="confirmTrade" form="cabfTrade">
+         <option selected="yes" value="1">attack</option>
+         <option value="2">defense</option>
+         <option value="3">damage</option>
+         <option value="4">health</option>
+      </select>
+      <select name="confirmedTradeAmount" form="cabfTrade">
+         <option selected="yes" value="800">800</option>
+         <option value="600">600</option>
+         <option value="400">400</option>
+         <option value="200">200</option>
+      </select>
    </div>
    <div><br></div>
    <div id="cabfDamageStorage"><span>-</span><span>Damage Storage</span></div>
