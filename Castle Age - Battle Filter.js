@@ -18,7 +18,7 @@
 // @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/craftDialog.html
 // @resource       statBlock https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/statBlock.html
 // @resource       param https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/param.txt
-// @version        1.2.15
+// @version        1.2.16
 // @copyright      2013+, Jigoku
 // @grant  GM_addStyle
 // @grant  GM_getResourceText
@@ -3585,16 +3585,34 @@ function farmQuestClick() {
     }
 }
 
-function questFarm() {
+function questFilter() {
+    var quests = $('table.quests_layout > tbody > tr');
+    console.debug("quests", quests);
+    if (item.get('#questFilterCheck', 'false') == 'true') {
+      quests.filter( ":contains('INFLUENCE: 100%')" ).hide();
+      quests.filter( ":not(:contains('INFLUENCE: 100%'))" ).show();
+      quests.filter( ":not(:contains('INFLUENCE: '))" ).hide();
+    } else {
+      quests.filter(":not(table)").show();
+    }
+    console.debug("quests", quests);
+}
+
+function questMenu() {
     try {
         var _sel = $('#results_main_wrapper');
         addQuestDuelBoard('#results_main_wrapper');
         _sel = $('#cabfToggleQuest');
-        _sel.html('<div>Farm: <input type="checkbox" id="questFarmCheck"></input>');
+        _sel.html('<div>Farm: <input type="checkbox" id="questFarmCheck"></input><div><div>Filter: <input type="checkbox" id="questFilterCheck"></input><div>');
         if (item.get('#questFarmCheck', 'false') == 'true') {
             $('#questFarmCheck')[0].checked = true;
         } else {
             $('#questFarmCheck')[0].checked = false;
+        }
+        if (item.get('#questFilterCheck', 'false') == 'true') {
+            $('#questFilterCheck')[0].checked = true;
+        } else {
+            $('#questFilterCheck')[0].checked = false;
         }
         $('#questFarmCheck').change(function () {
             if (this.checked) {
@@ -3603,6 +3621,15 @@ function questFarm() {
                 item.set('#questFarmCheck', 'false');
             }
             console.log("#questFarmCheck", item.get('#questFarmCheck', 'false'));
+        });
+        $('#questFilterCheck').change(function () {
+            if (this.checked) {
+                item.set('#questFilterCheck', 'true');
+            } else {
+                item.set('#questFilterCheck', 'false');
+            }
+            console.log("#questFilterCheck", item.get('#questFilterCheck', 'false'));
+            questFilter();
         });
     } catch (e) {
         item.set('#questFarmCheck', 'false');
@@ -4083,12 +4110,13 @@ function cabf_filters() {
     /* Quest */
     if ($('div[class*="quests_background"]').length > 0) {
         console.log('Quest');
-        questFarm();
+        questMenu();
 
         window.clearTimeout(QuestTimer);
         if (item.get('#questFarmCheck', 'false') == 'true') {
             QuestTimer = window.setTimeout(farmQuestClick, 1000);
         }
+        questFilter();
     }
 
     /* Guild Essence */
