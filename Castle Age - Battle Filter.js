@@ -12,6 +12,7 @@
 // @resource       jqueryUiCss http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css
 // @resource       cabfCss https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/style/Castle%20Age%20-%20Battle%20Filter.css
 // @resource       arenaBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/ArenaBoard.html
+// @resource       questBoard https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/QuestBoard.html
 // @resource       essenceBlock https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/essenceBlock.html
 // @resource       syncDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/SyncDialog.html
 // @resource       crarftDialog https://raw.githubusercontent.com/Bonbons/Castle-Age-Battle-Filter/master/html/craftDialog.html
@@ -290,7 +291,7 @@ var _statBlock = GM_getResourceText("statBlock");
 var _FestivalDuelBlock = '<div id="cabfFestivalDuelBlock"><div id="cabfFestivalDuelType">Festival Battle</div><div><br></div><div id="cabfFarmTarget"><span>-</span><span>Farm Targets</span></div><div><br></div><div id="cabfToggleFarm"><span class="cabfFarmTargetTitle ui-state-default"><a id="farmKeep" href="keep.php" target="_blank">Target</a> </span><select id="cabfTargetSelect" class="cabffarmfargettitle"></select></div><div><br></div></div>';
 var _ArenaDuelBlock = GM_getResourceText("arenaBoard");
 var _NormalDuelBlock = '<div id="cabfNormalDuelBlock"><div id="cabfNormalDuelType">Battle</div><div><br></div><div id="cabfCollapseNormal"><span>-</span><span>Farm Targets</span></div><div><br></div><div id="cabfToggleNormal"></div><div><br></div></div>';
-var _QuestDuelBlock = '<div id="cabfQuestBlock"><div id="cabfQuestDuelType">Quests</div><div><br></div><div id="cabfCollapseQuest"><span>-</span><span>Farm Quest</span></div><div><br></div><div id="cabfToggleQuest"></div><div><br></div></div>';
+var _QuestDuelBlock = GM_getResourceText("questBoard");
 var _essenceBlock = GM_getResourceText("essenceBlock");
 var _rightBoard = '<div id="cabfRigthBoard"></div>';
 var _leftBoard = '<div id="cabfLeftBoard"></div>';
@@ -463,7 +464,7 @@ function addEssenceBoard(id) {
 		$('select[name="confirmTrade"][form="cabfTrade"]').val(item.get('tradeType',1));
 
 		$('select[name="confirmedTradeAmount"][form="cabfTrade"]').val(item.get('tradeAmount',800));
-		
+
         $('#cabfDamageStorage').click(function () {
             runEffect('#cabfDamageStorage', '#cabfToggleDamageStorage');
         });
